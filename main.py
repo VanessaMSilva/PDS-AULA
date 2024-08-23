@@ -24,7 +24,8 @@ def square(num: int):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "lalalalllla"}
+    return {"Hello": "lala"}
+
 @app.get("/")
 def read_root():
     database_url = os.getenv("DATABASE_URL")
