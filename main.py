@@ -1,6 +1,7 @@
 from fastapi import FastAPI, status , Depends
 import os
 import classes
+
 import model
 #from database import engine, get_db
 from sqlalchemy.orm import Session
@@ -23,7 +24,7 @@ def square(num: int):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "lala"}
+    return {"Hello": "lalalalllla"}
 @app.get("/")
 def read_root():
     database_url = os.getenv("DATABASE_URL")
