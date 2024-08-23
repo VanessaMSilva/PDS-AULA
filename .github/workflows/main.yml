@@ -9,9 +9,8 @@ jobs:
       postgres:
         image: postgres:13
         env:
-         POSTGRES_USER: postgres
-         POSTGRES_PASSWORD: admin
-         POSTGRES_DB: nome_database
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
         ports:
          - 5432:5432
     steps:
