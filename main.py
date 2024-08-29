@@ -24,7 +24,7 @@ def square(num: int):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "lalala"}
+    return {"Hello": "lala"}
 
 @app.get("/")
 def read_root():
