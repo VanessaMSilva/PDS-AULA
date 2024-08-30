@@ -1,14 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
-#resposta = requests.get('https://ufu.br/')
+from model import Model_Mensagem
 
-resposta = requests.get('http://www.prefe.ufu.br/concessoes/cantina-da-tia-lu')
-if(resposta.status_code == 200):
-    soup = BeautifulSoup(resposta.content, 'html.parser')
-    print(soup.prettify())
 
+
+    
     #print(soup.title)
     #print(soup.title.contents)
+def return_dado():
+    resposta = requests.get('http://www.prefe.ufu.br/concessoes/cantina-da-tia-lu')
+    
+    if resposta.status_code == 200:
+        soup = BeautifulSoup(resposta.content, 'html.parser')
+        
+        # Cria uma instância da classe `Model_Mensagem`
+        model_msg = Model_Mensagem(
+            titulo="Web scraping",
+            conteudo=soup.prettify()
+        )
+        
+        return model_msg
+    else:
+        return None
+
+
 '''S
     itens = soup.find_all('div', class_='field-label')
     for item in itens:
