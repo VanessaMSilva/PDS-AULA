@@ -29,10 +29,9 @@ def read_root():
 @app.get("/")
 def read_root():
     database_url = os.getenv("DATABASE_URL")
-    secret_key = os.getenv("SECRET_KEY")
+   
     return {
         "database_url": database_url,
-        "secret_key": secret_key,
         "debug_mode": os.getenv("DEBUG")
     }
 
