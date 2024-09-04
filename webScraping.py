@@ -12,7 +12,9 @@ def return_dado():
     
     if resposta.status_code == 200:
         soup = BeautifulSoup(resposta.content, 'html.parser')
-        
+        itens = soup.find_all('div', class_='field-label')
+        for item in itens:
+            print(item.text, '\n')
         # Cria uma instância da classe `Model_Mensagem`
         model_msg = Model_Mensagem(
             titulo="Web scraping",
@@ -23,7 +25,7 @@ def return_dado():
     else:
         return None
 
-
+    
 '''S
     itens = soup.find_all('div', class_='field-label')
     for item in itens:
