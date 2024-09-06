@@ -1,8 +1,9 @@
-from fastapi import FastAPI, status, Depends
+from fastapi import FastAPI, Depends, status, HTTPException
 import model
 import webScraping
 from database import engine, get_db
 from sqlalchemy.orm import Session
+import classes
 
 model.Base.metadata.create_all(bind=engine)
 
@@ -17,23 +18,32 @@ def square(num: int):
 def read_root():
     return {"Hello": "lala"}
 
-'''@app.post("/criar", status_code=status.HTTP_201_CREATED)
+@app.post("/criar/", status_code=status.HTTP_201_CREATED)
 def criar_valores(nova_mensagem: classes.Mensagem, db: Session = Depends(get_db)):
-    nova_mensagem = webScraping.return_dado
     mensagem_criada = model.Model_Mensagem(**nova_mensagem.model_dump())
     db.add(mensagem_criada)
     db.commit()
     db.refresh(mensagem_criada)
-    return {"Mensagem": mensagem_criada}'''
-@app.post("/criar", status_code=status.HTTP_201_CREATED)
+    return {"Mensagem": mensagem_criada}
+
+@app.get("/menu/", status_code=status.HTTP_201_CREATED)
 def criar_valores(db: Session = Depends(get_db)):
-    # Obtém os dados via web scraping
-    nova_mensagem = webScraping.return_dado()
+    # Chama a função de scraping para obter os dados
+    dados = webScraping.return_dado()
+
+    if not dados:
+        raise HTTPException(status_code=400, detail="Erro ao coletar dados do menu")
     
-    if nova_mensagem:
-        db.add(nova_mensagem)  # Adiciona a instância de Model_Mensagem ao banco de dados
-        db.commit()  # Confirma a transação
-        db.refresh(nova_mensagem)  # Atualiza a instância com os dados do banco de dados
-        return {"Mensagem": nova_mensagem}  # Retorna a mensagem criada
-    else:
-        return {"Erro": "Não foi possível obter os dados da URL especificada."}
+    # Itera sobre os dados retornados pelo web scraping e insere no banco
+    mensagens_criadas = []
+    
+    print(f'{dados["menuNav"]}: {dados["link"]} --------------------------------')
+    nova_mensagem = model.Model_Menu(
+        menuNav = dados["menuNav"],
+        link = dados["link"],
+    )
+    db.add(nova_mensagem)
+    db.commit()
+    db.refresh(nova_mensagem)
+    mensagens_criadas.append(nova_mensagem)
+    return {"Mensagens": mensagens_criadas}
