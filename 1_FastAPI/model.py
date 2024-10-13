@@ -15,7 +15,6 @@ class Model_Mensagem(Base):
 class Model_Menu(Base):
     __tablename__ = 'menu'
     
-   
     id = Column(Integer, primary_key=True, nullable=False)
     menuNav = Column(String, nullable=False)
     link = Column(String, nullable=False)
